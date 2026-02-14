@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Security Policy Assistant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 500px;
+            margin: auto;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #0078D7;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005fa3;
+        }
+
+        .answer {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .confidence {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Security Policy Assistant</h2>
+
+        <input type="text" id="question" placeholder="Enter your question..." />
+        <br>
+        <button onclick="askQuestion()">Ask</button>
+
+        <div class="answer" id="answer"></div>
+        <div class="confidence" id="confidence"></div>
+    </div>
+
+<script>
+async function askQuestion() {
+    const question = document.getElementById("question").value;
+
+    const response = await fetch("http://127.0.0.1:8000/ask", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ question: question })
+    });
+
+    const data = await response.json();
+
+    document.getElementById("answer").innerHTML =
+        "<strong>Answer:</strong><br>" + data.answer;
+
+    document.getElementById("confidence").innerHTML =
+        "Confidence: " + data.confidence;
+}
+</script>
+
+</body>
+</html>
