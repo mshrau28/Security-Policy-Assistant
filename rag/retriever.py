@@ -4,11 +4,11 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-
+pinecone_api_key = os.getenv("PINECONE_API_KEY")
 # Load vectorstore once
 vectorstore = PineconeVectorStore.from_existing_index(
     index_name="security-policy-index",
-    embedding=OpenAIEmbeddings(api_key=os.environ["OPENAI_API_KEY"])
+    embedding=OpenAIEmbeddings(api_key=os.environ("OPENAI_API_KEY"))
 )
 
 def retrieve_query(query, k=5):
